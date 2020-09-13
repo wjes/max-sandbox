@@ -8,6 +8,7 @@ import data from './data'
 // no chart will be rendered.
 // website examples showcase many properties,
 // you'll often use just a few of them.
+
 const MyResponsiveLine = ({ data  }) => (
     <ResponsiveLine
         data={data}
