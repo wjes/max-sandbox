@@ -13,37 +13,46 @@ import ReactPDF, {
 
 import tuxImageBase64 from './tuxImageBase64'
 import Chartjs from 'chart.js';
+import graph from './dat'
+
+const colors= [
+  "255, 99, 132",
+  "54, 162, 235",
+  "255, 206, 86",
+  "75, 192, 192",
+  "153, 102, 255",
+  "255, 159, 64"
+]
+
+// MAPEA LA DATA
+var renderdata = graph.map(function(obj,i){ 
+  var rObj = {};
+  let nwarr = []
+  var arr = Object.values(obj.data).map(function(d){
+    return {x:Number(d.x),y:Number(d.y)}
+  });
+  nwarr.push(arr)
+  rObj['label'] = obj.name
+  rObj['data'] = nwarr[0];
+  rObj['backgroundColor'] = `rgba(${colors[i]}, 0.2)`;
+  rObj['borderColor'] = `rgba(${colors[i]}, 1)`;
+  rObj['borderWidth'] = 1;
+  rObj['lineTension'] = 0.1;
+  rObj['fill'] = true;
+  return rObj;
+});
+//////////////////
 
 
-const PDF = () => {
-
-  const chartConfig = {
+/// RETORNA EL VALOR DEL OBJETO DEACUERDO AL INDEX
+var renderloop = () => {
+  graph.map(function(obj,i){
+    const ctx = document.getElementById(`_Chart${i}`); // PINTA EL OBJETO EN EL DIV CORRESPONDIEBTE
+    new Chartjs(ctx, {
     type: "line",
     data: {
-      labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-      datasets: [
-        {
-          label: "# of Votes",
-          data: [12, 19, 3, 5, 2, 3],
-          backgroundColor: [
-            "rgba(255, 99, 132, 0.2)",
-            "rgba(54, 162, 235, 0.2)",
-            "rgba(255, 206, 86, 0.2)",
-            "rgba(75, 192, 192, 0.2)",
-            "rgba(153, 102, 255, 0.2)",
-            "rgba(255, 159, 64, 0.2)"
-          ],
-          borderColor: [
-            "rgba(255, 99, 132, 1)",
-            "rgba(54, 162, 235, 1)",
-            "rgba(255, 206, 86, 1)",
-            "rgba(75, 192, 192, 1)",
-            "rgba(153, 102, 255, 1)",
-            "rgba(255, 159, 64, 1)"
-          ],
-          borderWidth: 1
-        }
-      ]
+      labels: ["187", "188", "189", "190", "191", "192", "193", "194", "195", "196"],
+      datasets: [Object.values(renderdata)[i]] //// SE PASA EL OBJETO MAPEADO
     },
     options: {
       scales: {
@@ -54,22 +63,48 @@ const PDF = () => {
             }
           }
         ]
-      }
+      },
     }
-  };
+    });
+  })
+  
+  return
+}
 
- 
+
+/// RETORNA EL GRAFIXO MIX (TODOS LOS GRAFICOS)
+const chartConfig = {
+  type: "line",
+  data: {
+    labels: ["187", "188", "189", "190", "191", "192", "193", "194", "195", "196"],
+    datasets: renderdata //// SE PASA EL OBJETO MAPEADO
+  },
+  options: {
+    animation: {
+      duration: 0
+    },
+    scales: {
+      yAxes: [
+        {
+          ticks: {
+            beginAtZero: false
+          }
+        }
+      ]
+    }
+  }
+};
+
+const PDF = () => {
   
   const canvasRef = useRef(null)
   const [canvasBase64, setCanvasBase64] = useState() // '800px-Tux.svg.png' es el valor inicial para que ImagePDF no tire error 
-  const [chartInstance, setChartInstance] = useState(null);
 
   useEffect(() => {
+    renderloop()
     if (canvasRef && canvasRef.current) {
-      const newChartInstance = new Chartjs(canvasRef.current, chartConfig);
-      setChartInstance(newChartInstance);
+      new Chartjs(canvasRef.current, chartConfig)
     }
-    const ctx = canvasRef.current.getContext('2d')
     const image = new Image()
     image.src = '800px-Tux.svg.png'
     image.onload = () => {
@@ -107,13 +142,24 @@ const PDF = () => {
     </Document>
   )
 
+  
   return (
     <>
-    <canvas style={{ display: 'none' }} ref={canvasRef} />
-    {canvasBase64 ?
-        <PDFViewer style={{ width: '100%', height: '100%' }}>
-          <Report />
-      </PDFViewer> : <p>cargando ...</p>}
+    <div style={{width: '40%', display: 'inline-block'}}>
+    {
+        React.Children.toArray(
+          graph.map((item, i) => 
+          <canvas id={`_Chart${i}`} />)
+        )
+      }
+    </div>
+    <div style={{width: '60%', height: '99vh', display: 'inline-block', float: 'left'}}>
+      <canvas style={{ display: 'none' }} ref={canvasRef} />
+      {canvasBase64 ?
+          <PDFViewer style={{ width: '100%', height: '100%' }}>
+            <Report />
+        </PDFViewer> : <p>cargando ...</p>}
+    </div>
     </>
   )
 }
