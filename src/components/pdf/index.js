@@ -17,11 +17,10 @@ import graph from './dat'
 
 const colors= [
   "255, 99, 132",
-  "54, 162, 235",
-  "255, 206, 86",
+  "255, 159, 64",
+  "0,128,0",
   "75, 192, 192",
   "153, 102, 255",
-  "255, 159, 64"
 ]
 
 // MAPEA LA DATA
@@ -44,71 +43,154 @@ var renderdata = graph.map(function(obj,i){
 //////////////////
 
 
-/// RETORNA EL VALOR DEL OBJETO DEACUERDO AL INDEX
+
+
+const PDF = () => {
+  
+  const canvasRef = useRef(null)
+  const [canvasBase64, setCanvasBase64] = useState() // '800px-Tux.svg.png' es el valor inicial para que ImagePDF no tire error 
+  
+  /// RETORNA EL GRAFIXO MIX (TODOS LOS GRAFICOS)
+  const chartConfig = {
+    type: "line",
+    data: {
+      labels: ["187", "188", "189", "190", "191", "192", "193", "194", "195", "196"],
+      datasets: renderdata //// SE PASA EL OBJETO MAPEADO
+    },
+    options: {
+      'onClick' : function (evt, item) {
+        setCanvasBase64()
+        setTimeout(() => {
+        setCanvasBase64(canvasRef.current.toDataURL('image/png', 1.0))
+        }, 500)
+      },
+      animation: {
+        duration: 400
+      },
+      title: {
+        display: true,
+        text:'Grafico Mix',
+        fontColor: "green"
+      },
+      scales: {
+        yAxes: [
+          {
+            scaleLabel: {
+              display: true,
+            },
+            beginAtZero: false
+          }
+        ]
+      },
+      legend: { 
+        position: 'bottom',
+      }
+    }
+  };
+
+  /// RETORNA EL VALOR DEL OBJETO DEACUERDO AL INDEX
 var renderloop = () => {
   graph.map(function(obj,i){
     const ctx = document.getElementById(`_Chart${i}`); // PINTA EL OBJETO EN EL DIV CORRESPONDIEBTE
+    var rObj = {};
+    let nwarr = []
+    var arr = Object.values(obj.data).map(function(d){
+      return {x:Number(d.x),y:Number(d.y)}
+    });
+    nwarr.push(arr)
+    rObj['label'] = obj.name
+    rObj['data'] = nwarr[0];
+    rObj['backgroundColor'] = `rgba(${colors[3]}, 0.2)`;
+    rObj['borderColor'] = `rgba(${colors[3]}, 1)`;
+    rObj['borderWidth'] = 1;
+    rObj['lineTension'] = 0.1;
+    rObj['fill'] = true;
     new Chartjs(ctx, {
     type: "line",
     data: {
       labels: ["187", "188", "189", "190", "191", "192", "193", "194", "195", "196"],
-      datasets: [Object.values(renderdata)[i]] //// SE PASA EL OBJETO MAPEADO
+      datasets: [
+        rObj,
+        {
+          label: "lsc",
+          data: [{y:obj.lsc,x:"187"},{y:obj.lsc,x:"196"}],
+          borderColor : "rgb(255,0,0.1)",
+          borderWidth: 1,
+          fill:false,
+          type: 'line'
+        },
+        {
+          label: "lsm",
+          data: [{y:obj.lsm,x:"187"},{y:obj.lsm,x:"196"}],
+          borderColor : "rgb(255, 173, 51)",
+          borderWidth: 1,
+          fill:false,
+          type: 'line'
+        },
+        {
+          label: obj.lic,
+          data: [{y:obj.lic,x:"187"},{y:obj.lic,x:"196"}],
+          borderColor : "rgb(255,0,0.1)",
+          borderWidth: 1,
+          fill:false,
+          type: 'line'
+        },
+        {
+          label: obj.lim,
+          data: [{y:obj.lim,x:"187"},{y:obj.lim,x:"196"}],
+          borderColor : "rgb(255, 173, 51)",
+          borderWidth: 1,
+          fill:false,
+          type: 'line'
+        }
+        
+    ] //// SE PASA EL OBJETO MAPEADO
     },
     options: {
+      'onClick' : function (evt, item) {
+        console.log(evt)
+      },
+      legend: {
+        display: false
+      },
+      title: {
+        display: true,
+        text: obj.name,
+        fontColor: "green"
+      },
       scales: {
         yAxes: [
           {
-            ticks: {
-              beginAtZero: true
-            }
+            scaleLabel: {
+              display: true,
+            },
+            beginAtZero: false
           }
         ]
       },
     }
     });
   })
+  console.log('divs')
+  
   
   return
 }
 
 
-/// RETORNA EL GRAFIXO MIX (TODOS LOS GRAFICOS)
-const chartConfig = {
-  type: "line",
-  data: {
-    labels: ["187", "188", "189", "190", "191", "192", "193", "194", "195", "196"],
-    datasets: renderdata //// SE PASA EL OBJETO MAPEADO
-  },
-  options: {
-    animation: {
-      duration: 0
-    },
-    scales: {
-      yAxes: [
-        {
-          ticks: {
-            beginAtZero: false
-          }
-        }
-      ]
-    }
-  }
-};
-
-const PDF = () => {
-  
-  const canvasRef = useRef(null)
-  const [canvasBase64, setCanvasBase64] = useState() // '800px-Tux.svg.png' es el valor inicial para que ImagePDF no tire error 
-
   useEffect(() => {
-    renderloop()
+    
     if (canvasRef && canvasRef.current) {
       new Chartjs(canvasRef.current, chartConfig)
+      console.log('ref')
     }
+    renderloop()
     const image = new Image()
     image.src = '800px-Tux.svg.png'
     image.onload = () => {
+      setTimeout(() => {
       setCanvasBase64(canvasRef.current.toDataURL('image/png', 1.0))
+    }, 500)
     }
     // Actualiza la variable 'canvasBase64' y re-renderiza el actual componente
   }, [canvasRef]) 
@@ -117,12 +199,13 @@ const PDF = () => {
     page: {  
       paddingHorizontal: 20, 
       paddingVertical: 10,     
-      margin: 0, 
+      margin: 0,
       // fontSize: 7, 
     },
     image: {
       width: '100%',
-    }
+    },
+    
   })
 
 
@@ -130,9 +213,6 @@ const PDF = () => {
     <Document>
       <Page size="LETTER" style={styles.page}>
         <View>
-          <Text>
-            Imagen desde canvas
-          </Text>
           <ImagePDF
             style={styles.image}
             src={canvasBase64}
@@ -154,9 +234,9 @@ const PDF = () => {
       }
     </div>
     <div style={{width: '60%', height: '99vh', display: 'inline-block', float: 'left'}}>
-      <canvas style={{ display: 'none' }} ref={canvasRef} />
+      <canvas style={{ display: '' }} ref={canvasRef} />
       {canvasBase64 ?
-          <PDFViewer style={{ width: '100%', height: '100%' }}>
+          <PDFViewer style={{ width: '100%', height: '64vh' }}>
             <Report />
         </PDFViewer> : <p>cargando ...</p>}
     </div>
