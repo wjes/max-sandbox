@@ -44,11 +44,18 @@ var renderdata = graph.map(function(obj,i){
 
 
 
-
 const PDF = () => {
   
   const canvasRef = useRef(null)
+  const canvasRef0 = useRef(null)
+  const canvasRef1 = useRef(null)
+  const canvasRef2 = useRef(null)
+  const canvasRef3 = useRef(null)
   const [canvasBase64, setCanvasBase64] = useState() // '800px-Tux.svg.png' es el valor inicial para que ImagePDF no tire error 
+  const [canvasBase64_0, setCanvasBase64_0] = useState()
+  const [canvasBase64_1, setCanvasBase64_1] = useState()
+  const [canvasBase64_2, setCanvasBase64_2] = useState()
+  const [canvasBase64_3, setCanvasBase64_3] = useState()
   
   /// RETORNA EL GRAFIXO MIX (TODOS LOS GRAFICOS)
   const chartConfig = {
@@ -58,14 +65,8 @@ const PDF = () => {
       datasets: renderdata //// SE PASA EL OBJETO MAPEADO
     },
     options: {
-      'onClick' : function (evt, item) {
-        setCanvasBase64()
-        setTimeout(() => {
-        setCanvasBase64(canvasRef.current.toDataURL('image/png', 1.0))
-        }, 500)
-      },
       animation: {
-        duration: 400
+        duration: 0
       },
       title: {
         display: true,
@@ -89,6 +90,7 @@ const PDF = () => {
   };
 
   /// RETORNA EL VALOR DEL OBJETO DEACUERDO AL INDEX
+
 var renderloop = () => {
   graph.map(function(obj,i){
     const ctx = document.getElementById(`_Chart${i}`); // PINTA EL OBJETO EN EL DIV CORRESPONDIEBTE
@@ -147,8 +149,8 @@ var renderloop = () => {
     ] //// SE PASA EL OBJETO MAPEADO
     },
     options: {
-      'onClick' : function (evt, item) {
-        console.log(evt)
+      animation: {
+        duration: 0
       },
       legend: {
         display: false
@@ -178,19 +180,33 @@ var renderloop = () => {
 }
 
 
-  useEffect(() => {
-    
+  useEffect(() => {    
     if (canvasRef && canvasRef.current) {
       new Chartjs(canvasRef.current, chartConfig)
       console.log('ref')
     }
     renderloop()
+    
     const image = new Image()
     image.src = '800px-Tux.svg.png'
     image.onload = () => {
       setTimeout(() => {
-      setCanvasBase64(canvasRef.current.toDataURL('image/png', 1.0))
-    }, 500)
+        setCanvasBase64(canvasRef.current.toDataURL('image/png', 1.0))
+      }, 200)
+      const ctx = document.getElementById('_Chart0')
+      setCanvasBase64_0(ctx.toDataURL('image/png', 1.0))
+      const ctx1 = document.getElementById('_Chart1')
+      setCanvasBase64_1(ctx1.toDataURL('image/png', 1.0))
+      const ctx2 = document.getElementById('_Chart2')
+      setCanvasBase64_2(ctx2.toDataURL('image/png', 1.0))
+      const ctx3 = document.getElementById('_Chart3')
+      setCanvasBase64_3(ctx3.toDataURL('image/png', 1.0))
+      graph.map(function(obj,i){
+      })
+      //graph.map(function(obj,i){
+      //  const ctx = document.getElementById('_Chart0')
+      //  setCanvasBase64_0(ctx.toDataURL('image/png', 1.0))
+      //})
     }
     // Actualiza la variable 'canvasBase64' y re-renderiza el actual componente
   }, [canvasRef]) 
@@ -215,6 +231,22 @@ var renderloop = () => {
         <View>
           <ImagePDF
             style={styles.image}
+            src={canvasBase64_0}
+          />
+          <ImagePDF
+            style={styles.image}
+            src={canvasBase64_1}
+          />
+          <ImagePDF
+            style={styles.image}
+            src={canvasBase64_2}
+          />
+          <ImagePDF
+            style={styles.image}
+            src={canvasBase64_3}
+          />
+          <ImagePDF
+            style={styles.image}
             src={canvasBase64}
           />
         </View>
@@ -225,18 +257,16 @@ var renderloop = () => {
   
   return (
     <>
-    <div style={{width: '40%', display: 'inline-block'}}>
+    <div>
     {
         React.Children.toArray(
           graph.map((item, i) => 
-          <canvas id={`_Chart${i}`} />)
+          <canvas style={{ display: 'none' }} name={`_Chart${i}`} id={`_Chart${i}`} />)
         )
       }
-    </div>
-    <div style={{width: '60%', height: '99vh', display: 'inline-block', float: 'left'}}>
-      <canvas style={{ display: '' }} ref={canvasRef} />
+      <canvas style={{ display: 'none' }} ref={canvasRef} />
       {canvasBase64 ?
-          <PDFViewer style={{ width: '100%', height: '64vh' }}>
+          <PDFViewer style={{ width: '100%', height: '99vh' }}>
             <Report />
         </PDFViewer> : <p>cargando ...</p>}
     </div>
