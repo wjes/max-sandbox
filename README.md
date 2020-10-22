@@ -1,4 +1,4 @@
-#Problema
+# Problema
 
 Necesitamos instalar y correr un módulo que hizo un amigo en Python + MongoDB:
 
@@ -6,16 +6,16 @@ Necesitamos instalar y correr un módulo que hizo un amigo en Python + MongoDB:
 
 El problema es que no tenemos mucho conocimiento sobre Python y el README del módulo es un tanto críptico. 
 
-#Requerimiento
+# Requerimiento
 
 Lograr instalar el módulo y hacerlo funcionar en tu máquina local.
 
-#Contexto
+# Contexto
 
 El módulo se desarrolló en dos tandas. Primero el cliente nos pidió traspasar un árbol de decisión que estaba en la plataforma antigua. Luego, el cliente nos pidió implementar un nuevo algoritmo de inteligencia artificial. Ambas implementaciones están en el mismo módulo. 
 Por desgracia, para cuando necesitamos usar el módulo, varios de los paquetes y el proceso de instalación no funcionaban, por tanto tuvimos que empezar a indagar y descuartizar el archivo `requirements.txt` para poder tener las funciones del árbol de decisión y así cumplir con la fecha del entregable. Por supuesto debimos haber matado varios de los paquetes que usaba la segunda implementación (la cual debemos entregar funcionando en el siguiente entregable). 
 
-#Árbol de decisión
+# Árbol de decisión
 
 Para que no te tropieces con las mismas piedras te comparto el proceso que hicimos para poder instalar el árbol de decisión:
 
