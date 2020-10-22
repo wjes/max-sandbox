@@ -1,8 +1,6 @@
 # Problema
 
-Necesitamos instalar y correr un módulo que hizo un amigo en Python + MongoDB:
-
-[https://github.com/astng/module_ai](https://github.com/astng/module_ai)
+Necesitamos instalar y correr un módulo que hizo un amigo en Python + MongoDB: [https://github.com/astng/module_ai](https://github.com/astng/module_ai)
 
 El problema es que no tenemos mucho conocimiento sobre Python y el README del módulo es un tanto críptico. 
 
@@ -12,9 +10,9 @@ Lograr instalar el módulo y hacerlo funcionar en tu máquina local.
 
 # Contexto
 
-El módulo se desarrolló en dos tandas. Primero el cliente nos pidió traspasar un árbol de decisión que estaba en la plataforma antigua. Luego, el cliente nos pidió implementar un nuevo algoritmo de inteligencia artificial. Ambas implementaciones están en el mismo módulo. 
+El módulo se desarrolló en dos tandas. Primero el cliente nos pidió traspasar un árbol de decisión que estaba en la plataforma antigua. Luego, el cliente nos pidió implementar un nuevo algoritmo de inteligencia artificial.
 
-Por desgracia, para cuando necesitamos usar el módulo, varios de los paquetes y el proceso de instalación no funcionaban, por tanto tuvimos que empezar a indagar y descuartizar el archivo `requirements.txt` para poder tener las funciones del árbol de decisión y así cumplir con la fecha del entregable. Por supuesto debimos haber matado varios de los paquetes que usaba la segunda implementación (la cual debemos entregar funcionando en el siguiente entregable). 
+Por desgracia, para cuando necesitábamos usar el árbol de decisión, varios de los paquetes y el proceso de instalación no funcionaban, por tanto tuvimos que empezar a indagar y descuartizar paquetes para poder tener las funciones del árbol y así cumplir con la fecha del entregable. Por supuesto, debimos haber matado varios de los paquetes que usaba la segunda implementación (la cual debemos entregar funcionando en el siguiente entregable). 
 
 # Árbol de decisión
 
@@ -27,6 +25,8 @@ $ git clone --depth 1 https://github.com/astng/module_ai.git
 ```
 
 2. Instalar paquetes 
+
+Los paquetes a instalar están en `requirements.txt`
 
 ```sh
 $ cd module_ai
@@ -102,25 +102,26 @@ wrapt==1.12.1
 xlrd==1.2.0
 ``` 
 
+
 3. Migrar datos desde MySQL a MongoDB
 
-```sh
-python -m update_from_code_before.traspasando_logicas_a_mongo --user stng --password stng123 --db astng --table logics --mysql_db dictuc_tribologia
-python -m update_from_code_before.traspasando_logicas_a_mongo --user stng --password stng123 --db astng --table logics --mysql_db dictuc_collahuasi
-python -m update_from_code_before.traspasando_logicas_a_mongo --user stng --password stng123 --db astng --table logics --mysql_db dictuc_centinela
- 
-python -m update_from_code_before.traspasando_limites_de_muestras_a_mongo --user stng --password stng123 --db astng --table limits --mysql_db dictuc_tribologia
-python -m update_from_code_before.traspasando_limites_de_muestras_a_mongo --user stng --password stng123 --db astng --table limits --mysql_db dictuc_collahuasi
-python -m update_from_code_before.traspasando_limites_de_muestras_a_mongo --user stng --password stng123 --db astng --table limits --mysql_db dictuc_centinela
-```
+Este paso migra la base de datos de la plataforma antigua a la nueva en MongoDB
 
-Aquí también aparecían errores por paquetes con versiones no compatibles y hierbas varias.
+```sh
+$ python -m update_from_code_before.traspasando_logicas_a_mongo --user stng --password stng123 --db astng --table logics --mysql_db dictuc_tribologia
+$ python -m update_from_code_before.traspasando_logicas_a_mongo --user stng --password stng123 --db astng --table logics --mysql_db dictuc_collahuasi
+$ python -m update_from_code_before.traspasando_logicas_a_mongo --user stng --password stng123 --db astng --table logics --mysql_db dictuc_centinela
+$  
+$ python -m update_from_code_before.traspasando_limites_de_muestras_a_mongo --user stng --password stng123 --db astng --table limits --mysql_db dictuc_tribologia
+$ python -m update_from_code_before.traspasando_limites_de_muestras_a_mongo --user stng --password stng123 --db astng --table limits --mysql_db dictuc_collahuasi
+$ python -m update_from_code_before.traspasando_limites_de_muestras_a_mongo --user stng --password stng123 --db astng --table limits --mysql_db dictuc_centinela
+```
 
 _(La base de datos mínima para que esto funciona está incluida aquí en el repo)_
 
 4. Archivo de configuración
 
-Antes de correr el módulo hay que modificar algunas variables en `config/config_default.json`. Si las cambias deben calzar con los nombres de las tablas usados en el paso anterior
+Antes de correr el módulo hay que modificar algunas variables en `config/config_default.json`. Si las cambias debes asegúrate de cambiar también los valores usados en el paso anterior
 
 ```json
 {
@@ -136,7 +137,9 @@ Antes de correr el módulo hay que modificar algunas variables en `config/config
 5. Correr el módulo
 
 ```sh
-python api.main_api -c ./config/config_default.json
+$ cd module_ai
+$ source venv/bin/activate
+$ python -m api.main_api -c ./config/config_default.json
 ```
 
 
