@@ -117,11 +117,13 @@ $ python -m update_from_code_before.traspasando_limites_de_muestras_a_mongo --us
 $ python -m update_from_code_before.traspasando_limites_de_muestras_a_mongo --user stng --password stng123 --db astng --table limits --mysql_db dictuc_centinela
 ```
 
-_(La base de datos mínima para que esto funciona está incluida aquí en el repo)_
+Donde `--user`, `--password` y `--db` corresponden a parámetros de la nueva base de datos en MongoDB y `--mysql_db` a la antigua en MySQL
+
+Las bases de datos antiguas con las tablas mínimas para que esto funcione están incluidas en el repo (`dictuc_centinela.sql`, `dictuc_collahuasi.sql` y `dictuc_tribologia.sql`)
 
 4. Archivo de configuración
 
-Antes de correr el módulo hay que modificar algunas variables en `config/config_default.json`. Si las cambias debes asegúrate de cambiar también los valores usados en el paso anterior
+Antes de correr el módulo hay que modificar algunos parámetros en `config/config_default.json` :
 
 ```json
 {
@@ -142,4 +144,7 @@ $ source venv/bin/activate
 $ python -m api.main_api -c ./config/config_default.json
 ```
 
+6. Testeo
+
+Para testear si todo funcionó puedes revisar la Wiki del módulo donde aparecen los casos de uso : (https://github.com/astng/module_ai/wiki/Decision-Tree-Module)[github.com/astng/module_ai/wiki/Decision-Tree-Module]
 
