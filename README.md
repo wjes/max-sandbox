@@ -105,7 +105,7 @@ xlrd==1.2.0
 
 3. Migrar datos desde MySQL a MongoDB
 
-Este paso migra la base de datos de la plataforma antigua a la nueva en MongoDB
+Este paso migra la base de datos de la plataforma antigua a la nueva
 
 ```sh
 $ python -m update_from_code_before.traspasando_logicas_a_mongo --user stng --password stng123 --db astng --table logics --mysql_db dictuc_tribologia
@@ -117,13 +117,13 @@ $ python -m update_from_code_before.traspasando_limites_de_muestras_a_mongo --us
 $ python -m update_from_code_before.traspasando_limites_de_muestras_a_mongo --user stng --password stng123 --db astng --table limits --mysql_db dictuc_centinela
 ```
 
-Donde `--user`, `--password` y `--db` corresponden a parámetros de la nueva base de datos en MongoDB y `--mysql_db` a la antigua en MySQL
+Donde `--user`, `--password` y `--db` corresponden a los parámetros de la nueva base de datos en MongoDB y `--mysql_db` a la antigua en MySQL
 
 Las bases de datos antiguas con las tablas mínimas para que esto funcione están incluidas en el repo (`dictuc_centinela.sql`, `dictuc_collahuasi.sql` y `dictuc_tribologia.sql`)
 
 4. Archivo de configuración
 
-Antes de correr el módulo hay que modificar algunos parámetros en `config/config_default.json` :
+Antes de correr el módulo hay que modificar algunos parámetros para conectarse a MongoDB en `config/config_default.json` :
 
 ```json
 {
@@ -146,5 +146,5 @@ $ python -m api.main_api -c ./config/config_default.json
 
 6. Testeo
 
-Para testear si todo funcionó puedes revisar la Wiki del módulo donde aparecen los casos de uso : (https://github.com/astng/module_ai/wiki/Decision-Tree-Module)[github.com/astng/module_ai/wiki/Decision-Tree-Module]
+Para testear si todo funcionó puedes revisar la Wiki del módulo donde aparecen los casos de uso : [https://github.com/astng/module_ai/wiki/Decision-Tree-Module](https://github.com/astng/module_ai/wiki/Decision-Tree-Module)
 
