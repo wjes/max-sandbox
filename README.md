@@ -148,3 +148,5 @@ $ python -m api.main_api -c ./config/config_default.json
 
 Para testear si todo funcionó puedes revisar la Wiki del módulo donde aparecen los casos de uso : [https://github.com/astng/module_ai/wiki/Decision-Tree-Module](https://github.com/astng/module_ai/wiki/Decision-Tree-Module)
 
+Qué no te abrume la cantidad de texto, sólo hay que copiar los ejemplos con `curl`, pegarlos en la terminar y ver si el resultado coincide con el de la Wiki.
+
