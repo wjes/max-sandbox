@@ -108,13 +108,14 @@ xlrd==1.2.0
 Este paso migra la base de datos de la plataforma antigua a la nueva
 
 ```sh
-$ python -m update_from_code_before.traspasando_logicas_a_mongo --user stng --password stng123 --db astng --table logics --mysql_db dictuc_tribologia
-$ python -m update_from_code_before.traspasando_logicas_a_mongo --user stng --password stng123 --db astng --table logics --mysql_db dictuc_collahuasi
-$ python -m update_from_code_before.traspasando_logicas_a_mongo --user stng --password stng123 --db astng --table logics --mysql_db dictuc_centinela
+$ python update_from_code_before/traspasando_logicas_a_mongo.py --laboratory antofagasta --user stng --password stng123 --db astng --table logics --mysql_db dictuc_tribologia
+$ python update_from_code_before/traspasando_logicas_a_mongo.py --laboratory collahuasi --user stng --password stng123 --db astng --table logics --mysql_db dictuc_collahuasi
+$ python update_from_code_before/traspasando_logicas_a_mongo.py --laboratory centinela --user stng --password stng123 --db astng --table logics --mysql_db dictuc_centinela
 $  
-$ python -m update_from_code_before.traspasando_limites_de_muestras_a_mongo --user stng --password stng123 --db astng --table limits --mysql_db dictuc_tribologia
-$ python -m update_from_code_before.traspasando_limites_de_muestras_a_mongo --user stng --password stng123 --db astng --table limits --mysql_db dictuc_collahuasi
-$ python -m update_from_code_before.traspasando_limites_de_muestras_a_mongo --user stng --password stng123 --db astng --table limits --mysql_db dictuc_centinela
+
+$ python update_from_code_before/traspasando_limites_de_muestras_a_mongo.py --laboratory antofagasta --user stng --password stng123 --db astng --table limits --mysql_db dictuc_tribologia
+$ python update_from_code_before/traspasando_limites_de_muestras_a_mongo.py --laboratory collahuasi --user stng --password stng123 --db astng --table limits --mysql_db dictuc_collahuasi
+$ python update_from_code_before/traspasando_limites_de_muestras_a_mongo.py --laboratory centinela --user stng --password stng123 --db astng --table limits --mysql_db dictuc_centinela
 ```
 
 Donde `--user`, `--password` y `--db` corresponden a los parámetros de la nueva base de datos en MongoDB y `--mysql_db` a la antigua en MySQL
