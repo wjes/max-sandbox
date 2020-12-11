@@ -8,7 +8,6 @@ Legend:
 * NL : Non-Exact Logic
 * ML : Missing Logic
 * LU : Limits Undefined
-* AL : Alternative Logics
 
 ## Node: EL
 > Exact Logic
@@ -18,9 +17,9 @@ Nothing to do. All the limits are well defined and the logic exists.
 ## Node: NL + LU
 > Non-Exact Logic + Limits Undefined
 
-Returns the logic that matches the most essays. It also returns the list of limits that were not defined, preventing the logic from falling into the exact logic scenario. 
+Returns the logic that matches the most essays. It also returns the list of limits that were not defined, preventing the logic from falling into the exact logic or missing logic scenario. 
 
-Depending on how many limits are created within this very node (some or all of them) we will fall into the exact logic scenario or we'll stay in this one. 
+Depending on how many limits are created within this very node (some or all of them) we will fall into the exact/missing logic scenario or we'll stay in this one. 
 
 ## Node: ML
 > Missing Logic
