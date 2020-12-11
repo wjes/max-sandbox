@@ -1,5 +1,7 @@
 # Problema
 
+[a relative link](other_file.md)
+
 Necesitamos instalar y correr un módulo que hizo un amigo en Python + MongoDB: [https://github.com/astng/module_ai](https://github.com/astng/module_ai)
 
 El problema es que no tenemos mucho conocimiento sobre Python y el README del módulo es un tanto críptico. 
